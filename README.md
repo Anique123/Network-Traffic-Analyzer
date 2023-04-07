@@ -5,6 +5,8 @@ This is a Python script that captures network traffic and classifies packets bas
 
 ## Acknowledgments
 Scapy library: https://scapy.net/
+
 Scikit-learn library: https://scikit-learn.org/
+
 Inspired by: https://www.analyticsvidhya.com/blog/2020/07/packet-sniffing-using-scapy/
 etc.
