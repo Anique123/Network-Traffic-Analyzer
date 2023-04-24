@@ -1,8 +1,6 @@
 from scapy.all import * 
 import pandas as pd
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
+
 
 # Defining interface and time for capturing of traffic
 def capture_traffic(iface, capture_time):
@@ -12,16 +10,15 @@ def capture_traffic(iface, capture_time):
 # Defining the features that should be analyzed from the capture
 def extract_features(packet):
     features = []
-    # Possible to customize
-    features.append(packet[IP].src)
-    features.append(packet[TCP].sport)
-    features.append(packet[IP].dst)
-    features.append(packet[TCP].dport)
-    #features.append(str(packet[TCP].payload.load))
-    features.append(pd.to_datetime(packet.time, unit= "s"))
+    if IP in packet:
+        features.append(packet[IP].src)
+        features.append(packet[TCP].sport)
+        features.append(packet[IP].dst)
+        features.append(packet[TCP].dport)
+        features.append(pd.to_datetime(packet.time, unit= "s"))
     return features
 
-# Normal Capture without ML prep
+# Capture without
 def packet_filtering(cap):    
     dataset = []
     for packet in cap:
@@ -41,5 +38,5 @@ if __name__ == "__main__":
     # Running methods
     cap = capture_traffic(iface, capture_time)
     df = packet_filtering(cap)
-    
+
     print(df)
